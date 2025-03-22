@@ -1,3 +1,3 @@
 # nvimconfig
 
-## Simple config, quit messy.
+## Very very very basic config, quit messy.
