@@ -1,3 +1,16 @@
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
+end
+
+local packer_bootstrap = ensure_packer()
+
 vim.cmd([[
 augroup packer_user_config
 autocmd!
@@ -30,6 +43,22 @@ return require('packer').startup(function(use)
 	use {'hrsh7th/cmp-nvim-lsp-signature-help'}
 	use {'hrsh7th/cmp-nvim-lsp-document-symbol'}
 
+  -- DAP --
+  use {'mfussenegger/nvim-dap'}
+  use {
+    'rcarriga/nvim-dap-ui',
+    requires = {
+      "mfussenegger/nvim-dap", 
+      "nvim-neotest/nvim-nio"
+    }
+  }
+  use {'theHamsta/nvim-dap-virtual-text'}
+
+  -- FORMATTER --
+  use {
+    'nvimtools/none-ls.nvim',
+    requires = {'nvim-lua/plenary.nvim'}
+  }
 
 	-- TELESCOPES --
 	use {
